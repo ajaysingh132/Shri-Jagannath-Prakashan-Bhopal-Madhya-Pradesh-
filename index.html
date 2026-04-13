@@ -1,1 +1,115 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>जगन्नाथ प्रकाशन Tool</title>
 
+<style>
+body { font-family: sans-serif; background:#fff7e6; margin:0;}
+header { background:#ff8c00; color:#fff; padding:15px; text-align:center;}
+.container{padding:10px;}
+.card{background:#fff;padding:10px;margin-bottom:10px;border-radius:10px;}
+button{width:100%;padding:10px;margin:5px 0;background:#ff8c00;color:#fff;border:none;border-radius:8px;}
+input,textarea,select{width:100%;padding:8px;margin:5px 0;}
+</style>
+</head>
+
+<body>
+
+<header>📚 जगन्नाथ प्रकाशन</header>
+
+<div class="container">
+
+<div class="card">
+<h3>📂 Excel Import</h3>
+<input type="file" id="fileInput" accept=".csv">
+</div>
+
+<div class="card">
+<h3>📝 Book Form</h3>
+<input id="jp" placeholder="JP Number">
+<input id="title" placeholder="Title">
+<input id="author" placeholder="Author">
+
+<select id="isbnType">
+<option value="KDP">KDP ISBN</option>
+<option value="Own">Own ISBN</option>
+</select>
+
+<input id="isbn" placeholder="ISBN Number">
+
+<select id="status">
+<option>Draft</option>
+<option>Ready</option>
+<option>Published</option>
+</select>
+
+<textarea id="description" placeholder="Description"></textarea>
+<input id="keywords" placeholder="Keywords">
+</div>
+
+<div class="card">
+<h3>⚙️ Actions</h3>
+<button onclick="formatText()">Auto Format</button>
+<button onclick="copyAll()">Copy All</button>
+</div>
+
+<div class="card">
+<h3>🌐 Links</h3>
+<button onclick="openLink('https://kdp.amazon.com')">Open KDP</button>
+<button onclick="openLink('https://docs.google.com')">Google Docs</button>
+<button onclick="openLink('https://drive.google.com')">Google Drive</button>
+</div>
+
+</div>
+
+<script>
+
+// CSV Import
+document.getElementById("fileInput").addEventListener("change", function(e){
+  const reader = new FileReader();
+  reader.onload = function(event){
+    const rows = event.target.result.split("\n");
+    const data = rows[1].split(",");
+
+    jp.value = data[0] || "";
+    title.value = data[1] || "";
+    author.value = data[2] || "";
+    status.value = data[3] || "Draft";
+    isbnType.value = data[4] || "KDP";
+    isbn.value = data[5] || "";
+    description.value = data[7] || "";
+    keywords.value = data[8] || "";
+  };
+  reader.readAsText(e.target.files[0]);
+});
+
+// Formatter
+function formatText(){
+  description.value = "📖 " + description.value + "\n\n👉 उपयोगी पुस्तक";
+}
+
+// Copy
+async function copyAll(){
+  let text = `
+JP No: ${jp.value}
+Title: ${title.value}
+Author: ${author.value}
+ISBN: ${isbn.value}
+Description: ${description.value}
+Keywords: ${keywords.value}
+`;
+  await navigator.clipboard.writeText(text);
+  alert("Copied!");
+}
+
+// Open links
+function openLink(url){
+  window.open(url, "_blank");
+}
+
+</script>
+
+</body>
+  </html>
