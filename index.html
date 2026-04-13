@@ -54,7 +54,23 @@ input,textarea,select{width:100%;padding:8px;margin:5px 0;}
 <button onclick="formatText()">Auto Format</button>
 <button onclick="copyAll()">Copy All</button>
 </div>
+<div class="card">
+<h3>📚 Book Dashboard</h3>
 
+<table border="1" width="100%">
+<thead>
+<tr>
+<th>JP No</th>
+<th>Title</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="bookTable"></tbody>
+</table>
+
+<button onclick="saveBook()">➕ Add / Save Book</button>
+</div>
 <div class="card">
 <h3>🌐 Links</h3>
 <button onclick="openLink('https://kdp.amazon.com')">Open KDP</button>
