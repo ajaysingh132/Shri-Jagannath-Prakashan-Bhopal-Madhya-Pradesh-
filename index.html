@@ -124,7 +124,54 @@ Keywords: ${keywords.value}
 function openLink(url){
   window.open(url, "_blank");
 }
+let books = JSON.parse(localStorage.getItem("books")) || [];
 
+function saveBook() {
+  const book = {
+    jp: jp.value,
+    title: title.value,
+    status: status.value
+  };
+
+  books.push(book);
+  localStorage.setItem("books", JSON.stringify(books));
+  renderTable();
+}
+
+function renderTable() {
+  let html = "";
+
+  books.forEach((b, i) => {
+    html += `
+    <tr>
+      <td>${b.jp}</td>
+      <td>${b.title}</td>
+      <td>${b.status}</td>
+      <td>
+        <button onclick="copyBook(${i})">Copy</button>
+        <button onclick="deleteBook(${i})">Delete</button>
+      </td>
+    </tr>`;
+  });
+
+  document.getElementById("bookTable").innerHTML = html;
+}
+
+function copyBook(i) {
+  const b = books[i];
+  navigator.clipboard.writeText(
+    `JP: ${b.jp}\nTitle: ${b.title}\nStatus: ${b.status}`
+  );
+  alert("Copied!");
+}
+
+function deleteBook(i) {
+  books.splice(i, 1);
+  localStorage.setItem("books", JSON.stringify(books));
+  renderTable();
+}
+
+renderTable();
 </script>
 
 </body>
