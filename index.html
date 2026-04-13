@@ -25,7 +25,13 @@ input,textarea,select{width:100%;padding:8px;margin:5px 0;}
 <h3>📂 Excel Import</h3>
 <input type="file" id="fileInput" accept=".csv">
 </div>
+<div class="card">
+<h3>📄 पांडुलिपि Import (Direct Tool)</h3>
 
+<input type="file" id="fileInputText" accept=".txt">
+
+<textarea id="editor" rows="8" placeholder="यहाँ text आएगा"></textarea>
+</div>
 <div class="card">
 <h3>📝 Book Form</h3>
 <input id="jp" placeholder="JP Number">
@@ -137,7 +143,28 @@ function saveBook() {
   localStorage.setItem("books", JSON.stringify(books));
   renderTable();
 }
+function saveBook() {
+  const book = {
+    jp: jp.value,
+    title: title.value,
+    author: author.value,
+    status: status.value,
+    content: editor.value
+  };
+function editBook(i) {
+  const b = books[i];
 
+  jp.value = b.jp;
+  title.value = b.title;
+  author.value = b.author;
+  status.value = b.status;
+  editor.value = b.content;
+}
+  books.push(book);
+  localStorage.setItem("books", JSON.stringify(books));
+
+  renderTable();
+      }
 function renderTable() {
   let html = "";
 
