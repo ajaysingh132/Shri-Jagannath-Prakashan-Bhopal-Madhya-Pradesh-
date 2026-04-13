@@ -150,7 +150,7 @@ function openLink(url){
 let books = JSON.parse(localStorage.getItem("books")) || [];
 
 function saveBook() {
-  const book = {
+  const book = {जं
     jp: jp.value,
     title: title.value,
     status: status.value
@@ -166,8 +166,14 @@ function saveBook() {
     title: title.value,
     author: author.value,
     status: status.value,
-    content: editor.value
+    content: document.getElementById("editor").value
   };
+
+  books.push(book);
+  localStorage.setItem("books", JSON.stringify(books));
+
+  renderTable();
+}
 function editBook(i) {
   const b = books[i];
 
@@ -191,16 +197,20 @@ function renderTable() {
       <td>${b.jp}</td>
       <td>${b.title}</td>
       <td>${b.status}</td>
-      <td>
-        <button onclick="copyBook(${i})">Copy</button>
-        <button onclick="deleteBook(${i})">Delete</button>
-      </td>
-    </tr>`;
-  });
+    <td>
+  
+function editBook(i) {
+  const b = books[i];
 
-  document.getElementById("bookTable").innerHTML = html;
+  jp.value = b.jp;
+  title.value = b.title;
+  author.value = b.author;
+  status.value = b.status;
+
+  if (document.getElementById("editor")) {
+    document.getElementById("editor").value = b.content || "";
+  }
 }
-
 function copyBook(i) {
   const b = books[i];
   navigator.clipboard.writeText(
@@ -209,11 +219,6 @@ function copyBook(i) {
   alert("Copied!");
 }
 
-function deleteBook(i) {
-  books.splice(i, 1);
-  localStorage.setItem("books", JSON.stringify(books));
-  renderTable();
-}
 
 renderTable();
 </script>
